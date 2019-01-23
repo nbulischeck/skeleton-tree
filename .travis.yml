@@ -1,0 +1,27 @@
+language: go
+
+go:
+  - master
+
+os:
+  - linux
+
+addons:
+  apt:
+    packages:
+    - qemu
+
+services:
+  - docker
+
+before_install:
+  - mv out-of-tree/module_test.sh .
+  - mv out-of-tree/.out-of-tree.toml .
+
+before_script:
+  - go get -u github.com/jollheef/out-of-tree
+  - out-of-tree bootstrap
+  - out-of-tree kernel autogen
+
+script:
+  - out-of-tree pew
